@@ -1,11 +1,12 @@
 'use strict'
 
 module.exports = {
+  pathPrefix: "/EnjoySocialDistanceHackathon2020",
   siteMetadata: {
-    title: 'gatsby-starter-typescript-plus',
-    description: 'A starter kit for TypeScript-based Gatsby projects with sensible defaults.',
+    title: 'gochisweets',
+    description: 'sweet eat gochi',
     keywords: 'gatsbyjs, gatsby, javascript, sample, something',
-    siteUrl: 'https://gatsby-starter-typescript-plus.netlify.com',
+    siteUrl: 'https://takukobayashi.github.io/EnjoySocialDistanceHackathon2020/',
     author: {
       name: 'Resi Respati',
       url: 'https://twitter.com/resir014',
