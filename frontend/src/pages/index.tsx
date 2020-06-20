@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Link } from 'gatsby'
 import { Button } from 'react-rainbow-components'
+import axios from 'axios';
 
 import Page from '../components/Page'
 import Container from '../components/Container'
@@ -16,6 +17,20 @@ class IndexPage extends React.Component<PageProps> {
     super(props)
     this.state = {
     }
+
+    axios.get(`https://wenge-boar-5316.twil.io/video-token`).then(response => {
+      const token = response.data.token;
+
+      Video.connect(token, { name: 'VideoRoom' }).then(room => {
+        console.log('Connected to Room "%s"', room.name);
+      
+        room.participants.forEach(this.participantConnected);
+        room.on('participantConnected', this.participantConnected);
+      
+        room.on('participantDisconnected', this.participantDisconnected);
+        room.once('disconnected', error => room.participants.forEach(this.participantDisconnected));
+      });
+    })
   }
 
   render():
@@ -37,6 +52,35 @@ class IndexPage extends React.Component<PageProps> {
         </Page>
       </IndexLayout>
     )
+  }
+  
+  participantConnected(participant: any): void {
+    console.log('Participant "%s" connected', participant.identity);
+    console.log(participant);
+  
+    participant.on('trackSubscribed', (track) => {
+      console.log("subscribed");
+      console.log(track);
+      track.attach()
+    });
+    participant.on('trackUnsubscribed', (track) => {
+      console.log("unsubscribed");
+      console.log(track);
+      track.detach()
+    });
+  
+    participant.tracks.forEach(publication => {
+      if (publication.isSubscribed) {
+        console.log("publication subscribed");
+        console.log(publication);
+        publication.track.attach()
+      }
+    });
+  }
+  
+  participantDisconnected(participant: any): void {
+    console.log('Participant "%s" disconnected', participant.identity);
+    console.log(participant);
   }
 }
 
