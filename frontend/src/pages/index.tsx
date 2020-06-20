@@ -6,6 +6,7 @@ import axios from 'axios';
 import Page from '../components/Page'
 import Container from '../components/Container'
 import IndexLayout from '../layouts'
+import GoogleMapReact from 'google-map-react'
 
 const Video = require('twilio-video')
 
@@ -45,11 +46,17 @@ class IndexPage extends React.Component<PageProps> {
     | undefined {
     return (
       <IndexLayout>
-        <Page>
-          <Container>
-            <Button shaded label="Button Brand" onClick={() => alert('clicked!')} variant="brand" className="rainbow-m-around_medium" />
-          </Container>
-        </Page>
+        <div style={{ height: '100vh', width: '100%' }}>
+          <GoogleMapReact
+            bootstrapURLKeys={{ key: "AIzaSyCRLS3ix23lZgFjr-1NxTRdV4D_soSXt1g" }}
+            defaultCenter={{
+              lat: 35.8447475,
+              lng: 139.6450691
+            }}
+            defaultZoom={18}
+          >
+          </GoogleMapReact>
+          </div>
       </IndexLayout>
     )
   }
